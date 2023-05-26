@@ -1,8 +1,10 @@
 const orderModel = require("../models/orderSchema")
+const sendOrderEmail = require('./mailer')
 
 const orderController = {
-    addOrder: (req, res) => {
+    addOrder: (req, res) => {   
         orderModel.create({ ...req.body }).then(product => {
+            sendOrderEmail({...req.body})
             res.status(200).json({
                 message: 'Order Received',
                 product
