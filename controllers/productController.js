@@ -41,10 +41,9 @@ const productController = {
 
     getAllProducts: (req, res) => {
         productModel.find({}).then(products => {
-            res.status(200).json({
-                message: `Get all products`,
+            res.status(200).json(
                 products
-            })
+            )
 
         }).catch(err => {
             res.status(500).json({
@@ -61,6 +60,19 @@ const productController = {
                 message: 'Product delete from listing',
                 id
             })
+        })
+            .catch(err => {
+                res.status(500).json({
+                    message: 'Something went wrong'
+                })
+            })
+    },
+
+    getProductById: (req, res) => {
+        const { id } = req.params
+        // ObjectId(id)
+        productModel.findById(id).then(product => {
+            res.status(200).json(product)
         })
             .catch(err => {
                 res.status(500).json({
