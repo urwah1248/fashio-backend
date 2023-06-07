@@ -3,8 +3,8 @@ const sendOrderEmail = require('./mailer')
 
 const orderController = {
     addOrder: async (req, res) => {
-        orderModel.create({ ...req.body }).then(product => {
-            sendOrderEmail(product)
+        orderModel.create({ ...req.body }).then(async(product) => {
+            await sendOrderEmail(product)
             res.status(200).json({
                 message: 'Order Received',
                 product
