@@ -1,34 +1,61 @@
-const nodemailer = require('nodemailer');
+const nodemailer = require("nodemailer");
 
 const sendOrderEmail = async (orderData) => {
-    try {
+  try {
+    let transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false,
+      auth: {
+        user: process.env.USER,
+        pass: process.env.USER_PASSWORD,
+      },
+    });
 
-        // create reusable transporter object using the default SMTP transport
-        let transporter = nodemailer.createTransport({
-            host: "smtp.ethereal.email",
-            port: 587,
-            secure: false, // true for 465, false for other ports
-            auth: {
-                user: testAccount.user, // generated ethereal user
-                pass: testAccount.pass, // generated ethereal password
-            },
-        });
-  
-      // Compose email details
-      const mailOptions = {
-        from: '"Fred Foo 👻" <foo@example.com>',
-        to: 'urwahpatel@gmail.com',
-        subject: 'New Order Received',
-        text: `An order has been received by ${orderData.name}.`,
-        html: `<p>An order has been received.</p><pre>${JSON.stringify(orderData, null, 2)}</pre>`,
-      };
-  
-      // Send email
-      const info = await transporter.sendMail(mailOptions);
-      console.log('Email sent:', info.messageId);
-    } catch (error) {
-      console.error('Error sending email:', error);
-    }
-  };
+    let info = await transporter.sendMail({
+      from: '"Fashio Store" <hamza0332324@gmail.com>',
+      to: orderData.email,
+      subject: "Order verification ✔",
+      text: "Fashio Store",
+      html: `
+      <h2>User Details</h2>
+ <table style = "border-collapse: collapse;width: 100%;">
+   <tr>
+      <th style="border: 1px solid #dddddd; text-align: left;padding: 8px;"> Name </th>
+      <th style="border: 1px solid #dddddd; text-align: left;padding: 8px;"> Address</th>
+      <th style = "border: 1px solid #dddddd; text-align: left;padding: 8px;" > City </th>
+      <th style="border: 1px solid #dddddd; text-align: left;padding: 8px;"> Phone </th>
+   </tr>
+   <tr>
+      <td style="border: 1px solid #dddddd; text-align: left;padding: 8px;">${orderData.name}</td>
+      <td style="border: 1px solid #dddddd; text-align: left;padding: 8px;">${orderData.address}</td>
+      <td style="border: 1px solid #dddddd; text-align: left;padding: 8px;">${orderData.city}</td>
+      <td style="border: 1px solid #dddddd; text-align: left;padding: 8px;">${orderData.phoneNumber}</td>
+   </tr>
+ </table >
+    <h2> Order Details</h2 >
+ <table style="border-collapse: collapse;width: 100%;">
+   <tr>
+      <th style="border: 1px solid #dddddd; text-align: left;padding: 8px;">Name</th>
+      <th style="border: 1px solid #dddddd; text-align: left;padding: 8px;">Size</th>
+      <th style="border: 1px solid #dddddd; text-align: left;padding: 8px;">Quantity</th>
+      <th style="border: 1px solid #dddddd; text-align: left;padding: 8px;">Price</th>
+   </tr>
+   <tr>
+      ${orderData.cartItems.map((cartItem) => {
+        return `<td style="border: 1px solid #dddddd; text-align: left;padding: 8px;">${cartItem.name}</td>
+          <td style="border: 1px solid #dddddd; text-align: left;padding: 8px;">${cartItem.size}</td>
+          <td style="border: 1px solid #dddddd; text-align: left;padding: 8px;">${cartItem.quantity}</td>
+          <td style="border: 1px solid #dddddd; text-align: left;padding: 8px;">${cartItem.price}</td>`
+      })}
+   </tr >
+ </table >
+      `
+    });
+
+  } catch (error) {
+    console.error('Error sending email:', error);
+  }
+};
 
 module.exports = sendOrderEmail
