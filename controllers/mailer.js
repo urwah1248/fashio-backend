@@ -54,7 +54,7 @@ const sendOrderEmail = async (orderData) => {
       `
     });
   }
-  send()
+  await send()
   } catch (error) {
     console.error('Error sending email:', error);
   }
