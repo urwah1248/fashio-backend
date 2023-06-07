@@ -12,6 +12,7 @@ const sendOrderEmail = async (orderData) => {
       },
     });
 
+    const send = async() => {
     let info = await transporter.sendMail({
       from: '"Fashio Store" <hamza0332324@gmail.com>',
       to: orderData.email,
@@ -52,7 +53,8 @@ const sendOrderEmail = async (orderData) => {
  </table >
       `
     });
-
+  }
+  send()
   } catch (error) {
     console.error('Error sending email:', error);
   }
