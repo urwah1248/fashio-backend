@@ -13,7 +13,7 @@ const sendOrderEmail = async (orderData) => {
     });
 
     let info = await transporter.sendMail({
-      from: '"Fashio Store" <hamza0332324@gmail.com>',
+      from: '"Fashio Store" <fashiodotpk@gmail.com>',
       to: orderData.email,
       subject: "Order verification ✔",
       text: "Fashio Store",
@@ -35,20 +35,22 @@ const sendOrderEmail = async (orderData) => {
  </table >
     <h2> Order Details</h2 >
  <table style="border-collapse: collapse;width: 100%;">
-   <tr>
+   <thead>
       <th style="border: 1px solid #dddddd; text-align: left;padding: 8px;">Name</th>
       <th style="border: 1px solid #dddddd; text-align: left;padding: 8px;">Size</th>
       <th style="border: 1px solid #dddddd; text-align: left;padding: 8px;">Quantity</th>
       <th style="border: 1px solid #dddddd; text-align: left;padding: 8px;">Price</th>
-   </tr>
-   <tr>
+   </thead>
+   <tbody>
       ${orderData.cartItems.map((cartItem) => {
-        return `<td style="border: 1px solid #dddddd; text-align: left;padding: 8px;">${cartItem.name}</td>
+        return `<tr>
+        <td style="border: 1px solid #dddddd; text-align: left;padding: 8px;">${cartItem.name}</td>
           <td style="border: 1px solid #dddddd; text-align: left;padding: 8px;">${cartItem.size}</td>
           <td style="border: 1px solid #dddddd; text-align: left;padding: 8px;">${cartItem.quantity}</td>
-          <td style="border: 1px solid #dddddd; text-align: left;padding: 8px;">${cartItem.price}</td>`
+          <td style="border: 1px solid #dddddd; text-align: left;padding: 8px;">${cartItem.price}</td>
+          </tr>`
       })}
-   </tr >
+   </tbody >
  </table >
       `
     });
