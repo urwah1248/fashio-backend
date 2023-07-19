@@ -28,6 +28,24 @@ const orderController = {
                 message: 'Something went wrong'
             })
         })
-    }
+    },
+
+    deleteOrder: (req, res) => {
+        const { id } = req.params
+        // ObjectId(id)
+        orderModel.findByIdAndDelete(id).then(order => {
+            res.status(200).json({
+                message: 'Order deleted from listing',
+                id
+            })
+        })
+            .catch(err => {
+                res.status(500).json({
+                    message: 'Something went wrong'
+                })
+            })
+    },
+
+
 }
 module.exports = orderController
